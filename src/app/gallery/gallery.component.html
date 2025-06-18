@@ -1,0 +1,35 @@
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="gallery-header">
+      <h2 class="section-title">📸 School Gallery</h2>
+      <p class="section-subtitle">Capturing precious moments and memories</p>
+    </div>
+    <div class="gallery-grid">
+      <div *ngFor="let item of galleryItems" class="gallery-item">
+        <img [src]="item.image" [alt]="item.title" class="gallery-image">
+        <div class="gallery-overlay">
+          <h3 class="gallery-title">{{ item.title }}</h3>
+          <p class="gallery-description">{{ item.description }}</p>
+        </div>
+      </div>
+    </div>
+
+        <div class="message-section">
+      <div class="message-card">
+        <div class="message-content">
+          <h3>A Message from Our Principal</h3>
+          <blockquote>
+            "At Roopa Educational Society, we believe that education is not just about academic achievement, 
+            but about nurturing the whole child. Our dedicated team of educators works tirelessly to create 
+            an environment where every student can discover their potential, develop their talents, and grow 
+            into confident, compassionate individuals ready to make a positive impact on the world."
+          </blockquote>
+          <cite>- P.Mahalakshmi, Principal</cite>
+        </div>
+        <div class="message-image">
+          <img src="https://images.pexels.com/photos/5212317/pexels-photo-5212317.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop" alt="Principal">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

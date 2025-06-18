@@ -1,0 +1,197 @@
+.login-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow: hidden; /* ensure no scrollbars */
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://ncsdelhi.scientificstudy.in/images/LoginPage/loginImage.jpg') no-repeat center center / cover;
+  filter: blur(6px); /* adjust blur amount as needed */
+  z-index: 0;
+}
+
+.login {
+  position: relative;
+  z-index: 1; /* make sure login box is on top of blur */
+  background: rgba(255, 255, 255, 3.8); /* semi-transparent background */
+  backdrop-filter: saturate(180%) blur(4px); /* optional: extra glass effect */
+  color: #000;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.8s ease-out;
+}
+
+
+h2.title {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  animation: slideIn 0.5s ease-out;
+}
+
+.status-message {
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.status-message.error {
+  color: #ff4d4d;
+}
+
+.status-message.success {
+  color: #66ff66;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-field {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ddd;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.625rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 10px rgba(37, 117, 252, 0.5);
+  outline: none;
+}
+
+.submit-btn,
+.toggle-btn {
+  background: #0c3170;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.75rem;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.submit-btn:hover,
+.toggle-btn:hover {
+  background-color: #2638d4;
+}
+
+.error {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: 2px solid #fff;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #000;
+  font-size: 1.125rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .login {
+    padding: 2rem;
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login {
+    padding: 1.5rem;
+    max-width: 320px;
+  }
+
+  h2.title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 1rem;
+  }
+
+  .login {
+    padding: 1.25rem;
+    max-width: 100%;
+    border-radius: 0.75rem;
+  }
+
+  h2.title {
+    font-size: 1.5rem;
+  }
+
+  .input-field {
+    font-size: 0.9rem;
+    padding: 0.625rem 0.875rem;
+  }
+
+  .submit-btn,
+  .toggle-btn {
+    font-size: 0.9rem;
+    padding: 0.625rem 1rem;
+  }
+}

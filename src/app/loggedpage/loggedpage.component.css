@@ -1,0 +1,144 @@
+.main-content {
+    position: relative;
+    padding-top: 80px; /* height of navbar */
+    padding-bottom: 80px; /* height of footer */
+    min-height: calc(100vh - 160px); /* full screen minus navbar+footer */
+    overflow: hidden;
+}
+
+.main-content::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('https://img.freepik.com/free-photo/pencils-organizer_23-2147654439.jpg') center center / cover no-repeat;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0.8;
+    z-index: 0;
+}
+
+/* Container spacing */
+section {
+    position: relative;
+    z-index: 1;
+    margin: 20px auto;
+    max-width: 700px;
+    padding: 20px;
+    background-color: rgba(165, 165, 165, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Headings with icons */
+h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+}
+
+h2::before {
+    content: "📢";
+    margin-right: 8px;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+input:focus {
+    border-color: #1976d2;
+    outline: none;
+}
+
+/* Buttons */
+button {
+    padding: 8px 16px;
+    margin-top: 6px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #115293;
+}
+
+button[type="button"] {
+    background-color: #6c757d;
+}
+
+button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+/* Notice list */
+.notice-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.notice-list li {
+    background-color: #ffffff;
+    color: #000000;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notice-list li strong {
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.notice-list li button {
+    padding: 4px 10px;
+    font-size: 13px;
+}
+
+.notice-list li button:first-of-type {
+    background-color: #28a745;
+}
+
+.notice-list li button:first-of-type:hover {
+    background-color: #218838;
+}
+
+.notice-list li button:last-of-type {
+    background-color: #dc3545;
+}
+
+.notice-list li button:last-of-type:hover {
+    background-color: #c82333;
+}
+
+textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    resize: vertical;
+}

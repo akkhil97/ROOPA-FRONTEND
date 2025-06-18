@@ -1,0 +1,32 @@
+<div class="main-content">
+  <section>
+    <!-- Post/Update Notice -->
+    <h2>📌 Post / Update Notice</h2>
+
+    <input type="text" placeholder="Notice Title" [(ngModel)]="form.title" />
+    <textarea placeholder="Notice Description" [(ngModel)]="form.description"></textarea>
+    <input type="date" [(ngModel)]="form.postedDate" />
+
+    <button (click)="saveNotice()">
+      {{ form.id ? 'Update' : 'Post' }}
+    </button>
+    <button *ngIf="form.id" type="button" (click)="resetForm()">Cancel</button>
+  </section>
+
+  <section class="notice-list">
+    <h2>📄 Existing Notices</h2>
+    <ul>
+      <li *ngFor="let notice of notices">
+        <div>
+          <strong>{{ notice.title }}</strong> <br />
+          <em>{{ notice.description }}</em> <br />
+          📅 {{ notice.postedDateTime | date: 'yyyy-MM-dd' }}
+        </div>
+        <div>
+          <button (click)="editNotice(notice)">Edit</button>
+          <button (click)="deleteNotice(notice.id)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </section>
+</div>

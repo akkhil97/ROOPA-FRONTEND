@@ -1,0 +1,273 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.school-header {
+  background: linear-gradient(to right, #0f766e, #0ea5e9);
+  padding: 0.8rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.school-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+}
+
+.school-title h1 {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.school-title .tagline {
+  color: #f0f9ff;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Navigation links */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Hamburger menu button */
+.menu-button {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-button span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.menu-button span.active:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-button span.active:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-button span.active:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+.school-header {
+  background: #004080;
+  color: white;
+  padding: 10px;
+}
+
+.school-header.plain {
+  background: #222;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-item {
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+}
+
+
+/* Mobile responsive styles */
+@media (max-width: 992px) {
+  .nav-links {
+    width: 100%;
+    flex-direction: column;
+    background: #0f766e;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .nav-links.open {
+    max-height: 400px;
+    opacity: 1;
+    visibility: visible;
+    padding: 1rem 0;
+  }
+
+  .menu-button {
+    display: flex;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Fullscreen overlay background */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.popup-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Popup box */
+.settings-popup {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  padding: 28px 36px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  z-index: 1001;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  opacity: 0;
+  transform: translateY(-20px) scale(0.96);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.popup-overlay.active .settings-popup {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Heading */
+.settings-popup h3 {
+  margin-bottom: 16px;
+  font-size: 1.6rem;
+  color: #222;
+  font-weight: 600;
+}
+
+/* Input styles */
+.settings-popup input {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.settings-popup input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+/* Buttons row */
+.settings-popup .button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* Button styles */
+.settings-popup button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.settings-popup button.save-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.settings-popup button.save-btn:hover {
+  background-color: #218838;
+}
+
+.settings-popup button.cancel-btn {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.settings-popup button.cancel-btn:hover {
+  background-color: #c82333;
+}
+
+.settings-popup button:active {
+  transform: scale(0.97);
+}
+
