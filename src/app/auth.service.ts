@@ -12,38 +12,34 @@ interface UserLog {
 })
 export class AuthService {
   private loggedIn = false;
-  private currentUsername = 'admin';
+  private currentUsername = 'ROOPASCHOOLADMIN';
 
-  constructor(private http: HttpClient) {}
+   constructor(private http: HttpClient) {}
 
   isLoggedIn(): boolean {
-    return this.loggedIn;
+    return sessionStorage.getItem('loggedIn') === 'true';
   }
 
   login() {
-    this.loggedIn = true;
+    sessionStorage.setItem('loggedIn', 'true');
   }
 
   logout() {
-    this.loggedIn = false;
+    sessionStorage.removeItem('loggedIn');
   }
 
   getCurrentUsername(): string {
-    return this.currentUsername;
+    return sessionStorage.getItem('username') || '';
   }
 
   setCurrentUsername(username: string) {
-    this.currentUsername = username;
+    sessionStorage.setItem('username', username);
   }
 
-updateCredentials(username: string, password: string): Observable<any> {
-  const userData: UserLog = { username, password };
-  return this.http.put(
-    'http://localhost:8080/api/admin/update',
-    userData,
-    { responseType: 'text' }
-  );
-}
-
-
+  updateCredentials(username: string, password: string): Observable<any> {
+    const userData = { username, password };
+    return this.http.put('http://localhost:8080/api/admin/update', userData, {
+      responseType: 'text',
+    });
+  }
 }

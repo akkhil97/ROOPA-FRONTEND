@@ -1,56 +1,112 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css']
+  styleUrls: ['./gallery.component.css'],
 })
-export class GalleryComponent {
-  galleryItems = [
-    {
-      title: 'Annual Day Celebration',
-      description: 'Students showcasing their talents in our grand annual celebration',
-      image: 'https://images.pexels.com/photos/5427659/pexels-photo-5427659.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
-    },
-    {
-      title: 'Morning Assembly',
-      description: 'Daily morning assembly fostering discipline and unity',
-      image: 'https://images.pexels.com/photos/5212317/pexels-photo-5212317.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop'
-    },
-    {
-      title: 'Science Exhibition',
-      description: 'Young scientists presenting their innovative projects',
-      image: 'https://images.pexels.com/photos/5427659/pexels-photo-5427659.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop'
-    },
-    {
-      title: 'Sports Day',
-      description: 'Athletic competitions promoting physical fitness and teamwork',
-      image: 'https://images.pexels.com/photos/5427659/pexels-photo-5427659.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
-    },
-    {
-      title: 'Cultural Program',
-      description: 'Traditional and modern performances celebrating our heritage',
-      image: 'https://images.pexels.com/photos/1181539/pexels-photo-1181539.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop'
-    },
-    {
-      title: 'Kindergarten Activities',
-      description: 'Our little busy bees engaged in fun learning activities',
-      image: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop'
-    },
-    {
-      title: 'Library Session',
-      description: 'Students exploring the world of knowledge through reading',
-      image: 'https://images.pexels.com/photos/8471779/pexels-photo-8471779.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop'
-    },
-    {
-      title: 'Art & Craft Workshop',
-      description: 'Creative workshops nurturing artistic talents',
-      image: 'https://images.pexels.com/photos/8613097/pexels-photo-8613097.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop'
-    },
+export class GalleryComponent implements OnInit {
+  galleryItems: any[] = [];
+  showModal = false;
+  selectedItem: any = null;
+  currentPhotoIndex = 0;
 
-  ];
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.loadGalleryItems();
+  }
+
+  loadGalleryItems(): void {
+    this.http.get<any[]>('http://localhost:8080/api/media').subscribe({
+      next: (response) => {
+        this.galleryItems = response.map((media) => {
+          const photos: string[] = [];
+
+          // Assuming your API sends base64 encoded photos like photo1, photo2, ..., photo15
+          for (let i = 1; i <= 20; i++) {
+            const photoKey = `photo${i}`;
+            if (media[photoKey]) {
+              photos.push(`data:image/jpeg;base64,${media[photoKey]}`);
+            }
+          }
+
+          return {
+            id: media.id,
+            title: media.title,
+            postedDate: media.postedDate,
+            image: photos[0], // first photo as thumbnail
+            photos: photos,
+          };
+        });
+      },
+      error: (error) => {
+        console.error('Error loading gallery items:', error);
+      },
+    });
+  }
+
+  openGallery(item: any): void {
+    this.selectedItem = item;
+    this.currentPhotoIndex = 0;
+    this.showModal = true;
+  }
+
+  closeGallery(): void {
+    this.showModal = false;
+    this.selectedItem = null;
+    this.currentPhotoIndex = 0;
+  }
+
+  nextImage(event: Event): void {
+    event.stopPropagation();
+    if (this.selectedItem) {
+      this.currentPhotoIndex =
+        (this.currentPhotoIndex + 1) % this.selectedItem.photos.length;
+    }
+  }
+
+  prevImage(event: Event): void {
+    event.stopPropagation();
+    if (this.selectedItem) {
+      this.currentPhotoIndex =
+        (this.currentPhotoIndex - 1 + this.selectedItem.photos.length) %
+        this.selectedItem.photos.length;
+    }
+  }
+
+  downloadImage(imageUrl: string): void {
+    const a = document.createElement('a');
+    a.href = imageUrl;
+    a.download = 'gallery-photo.jpg';
+    a.click();
+  }
+
+formatPostedDate(postedDate: string): string {
+  if (!postedDate) return 'Date unknown';
+
+  const postDate = new Date(postedDate);
+  const today = new Date();
+  const diffTime = today.getTime() - postDate.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays <= 3) {
+    return '✨ NEW';
+  } else if (diffDays <= 10) {
+    return `Posted ${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+  } else {
+    const dd = String(postDate.getDate()).padStart(2, '0');
+    const mm = String(postDate.getMonth() + 1).padStart(2, '0');
+    const yyyy = postDate.getFullYear();
+    return `Posted on ${dd}/${mm}/${yyyy}`;
+  }
+}
+
+
+
 }

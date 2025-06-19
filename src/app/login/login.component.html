@@ -4,8 +4,9 @@
     <h2 *ngIf="showRegister" class="title">Register</h2>
 
     <!-- Debugging message -->
-    <p *ngIf="!isRegisterAllowed" class="status-message error">User(s) exist, Please Login</p>
-    <p *ngIf="isRegisterAllowed" class="status-message success">No users, Please Register</p>
+    <p *ngIf="!isRegisterAllowed" class="status-message error">Maximum users reached, please login.</p>
+    <p *ngIf="isRegisterAllowed" class="status-message success">Registration is open! You can register below.</p>
+
 
     <!-- Login Form -->
     <form *ngIf="!showRegister" (ngSubmit)="onSubmit()" class="form">
@@ -17,10 +18,12 @@
 
     <!-- Register Form -->
     <form *ngIf="showRegister" (ngSubmit)="onRegister()" class="form">
-      <input type="text" placeholder="Username" [(ngModel)]="registerEmail" name="registerEmail" required class="input-field">
-      <input type="password" placeholder="Password" [(ngModel)]="registerPassword" name="registerPassword" required class="input-field">
+      <input type="text" placeholder="Username" [(ngModel)]="registerEmail" name="registerEmail" required
+        class="input-field">
+      <input type="password" placeholder="Password" [(ngModel)]="registerPassword" name="registerPassword" required
+        class="input-field">
       <div *ngIf="passwordError" class="error">{{ passwordError }}</div>
-      <button type="submit" class="submit-btn">Register</button>
+      <button type="submit" class="submit-btn" [disabled]="!isRegisterAllowed">Register</button>
       <button type="button" (click)="toggleForm()" class="toggle-btn">Back to Login</button>
     </form>
   </div>

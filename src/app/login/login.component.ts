@@ -26,9 +26,16 @@ showRegisterPassword: boolean = false;
   constructor(private http: HttpClient, private router: Router,   private authService: AuthService  // Inject AuthService
   ) {}
 
-  ngOnInit(): void {
 
-    this.getusers();
+ngOnInit(): void {
+  if (this.authService.isLoggedIn()) {
+    // If already logged in, skip login form and go to dashboard
+    this.router.navigate(['/loggedpage']);
+  } else {
+    this.getusers(); // Only call if not logged in
+  
+}
+
 
       // Prevent right-click
 //   document.addEventListener('contextmenu', this.disableRightClick);
@@ -58,8 +65,8 @@ getusers(): void {
     next: (users) => {
       console.log('Users fetched:', users);
 
-      // Allow registration only if no users exist
-      this.isRegisterAllowed = users.length === 0;
+      // Allow registration only if < 3 users exist
+      this.isRegisterAllowed = users.length < 3;
       console.log('isRegisterAllowed:', this.isRegisterAllowed);
     },
     error: (error) => {

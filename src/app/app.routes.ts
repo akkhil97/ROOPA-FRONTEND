@@ -9,7 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { HeroComponent } from './hero/hero.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { LoggedpageComponent } from './loggedpage/loggedpage.component';
+import { LoggedPageComponent } from './loggedpage/loggedpage.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,7 +20,7 @@ export const routes: Routes = [
   // { path: 'staff', component: StaffComponent },
   { path: 'gallery', component: GalleryComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'loggedpage', component: LoggedpageComponent },
+  { path: 'loggedpage', component: LoggedPageComponent },
   { path: '**', redirectTo: '' },
 ];
 

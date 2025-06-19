@@ -53,7 +53,7 @@ h2.title {
 }
 
 .status-message.success {
-  color: #66ff66;
+  color: #1a621a;
 }
 
 .form {
@@ -104,15 +104,13 @@ h2.title {
 }
 
 .toggle-btn {
-  background: transparent;
+  background: #0c3170;
   border: 2px solid #fff;
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
 
-.toggle-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
+
 
 @keyframes fadeIn {
   from {
