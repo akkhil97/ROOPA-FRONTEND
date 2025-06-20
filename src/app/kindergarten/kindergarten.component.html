@@ -34,21 +34,21 @@
       </div>
     </div>
 
-    <div class="programs-section">
-      <h3 class="programs-title">Our Programs</h3>
-      <div class="programs-grid">
-        <div *ngFor="let program of programs" class="program-card">
-          <div class="program-image">
-            <img [src]="program.image" [alt]="program.title">
-          </div>
-          <div class="program-content">
-            <h4 class="program-title">{{ program.title }}</h4>
-            <p class="program-description">{{ program.description }}</p>
-            <button class="program-btn">Learn More</button>
-          </div>
-        </div>
+<div class="programs-section">
+  <h3 class="programs-title">Our Programs</h3>
+  <div class="programs-grid">
+    <div *ngFor="let program of programs" class="program-card">
+      <div class="program-image">
+        <img [src]="program.image" [alt]="program.title">
+      </div>
+      <div class="program-content">
+        <h4 class="program-title">{{ program.title }}</h4>
+        <p class="program-description">{{ program.description }}</p>
+        <button class="program-btn" (click)="openOverlay(program)">Learn More</button>
       </div>
     </div>
+  </div>
+</div>
 
     <div class="cta-section">
       <div class="cta-content">
@@ -60,4 +60,16 @@
       </div>
     </div>
   </div>
+
+  <!-- Overlay Popover -->
+<div class="overlay" *ngIf="selectedProgram">
+  <div class="overlay-content">
+    <button class="close-btn" (click)="closeOverlay()">✖</button>
+    <img [src]="selectedProgram.image" [alt]="selectedProgram.title" class="overlay-image">
+    <h3 class="overlay-title">{{ selectedProgram.title }}</h3>
+    <p class="overlay-description">
+      {{ selectedProgram.fullDescription || selectedProgram.description }}
+    </p>
+  </div>
+</div>
 </section>

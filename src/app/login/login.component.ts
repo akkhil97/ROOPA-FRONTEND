@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   email: string = '';
@@ -19,39 +19,23 @@ export class LoginComponent implements OnInit {
   registerPassword: string = '';
   showRegister: boolean = false;
   passwordError: string = '';
-  isRegisterAllowed: boolean = false;  // Controls visibility of the Register button
+  isRegisterAllowed: boolean = false;
   showPassword: boolean = false;
-showRegisterPassword: boolean = false;
+  showRegisterPassword: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router,   private authService: AuthService  // Inject AuthService
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
   ) {}
 
-
-ngOnInit(): void {
-  if (this.authService.isLoggedIn()) {
-    // If already logged in, skip login form and go to dashboard
-    this.router.navigate(['/loggedpage']);
-  } else {
-    this.getusers(); // Only call if not logged in
-  
-}
-
-
-      // Prevent right-click
-//   document.addEventListener('contextmenu', this.disableRightClick);
-
-//   }
-
-  
-// // Detach event listener on destroy
-// ngOnDestroy(): void {
-//   document.removeEventListener('contextmenu', this.disableRightClick);
-// }
-
-// disableRightClick = (event: MouseEvent) => {
-//   event.preventDefault();
-//   alert('Right click has been disabled by the developer.');
-};
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/loggedpage']);
+    } else {
+      this.getusers();
+    }
+  }
 
   toggleForm() {
     this.showRegister = !this.showRegister;
@@ -60,39 +44,39 @@ ngOnInit(): void {
     this.registerPassword = '';
   }
 
-getusers(): void {
-  this.http.get<any[]>('http://localhost:8080/api/admin/all').subscribe({
-    next: (users) => {
-      console.log('Users fetched:', users);
-
-      // Allow registration only if < 3 users exist
-      this.isRegisterAllowed = users.length < 3;
-      console.log('isRegisterAllowed:', this.isRegisterAllowed);
-    },
-    error: (error) => {
-      console.error('Error fetching users:', error);
-      this.isRegisterAllowed = false; // Optional: prevent registration on error
-    }
-  });
-}
-
+  getusers(): void {
+    this.http.get<any[]>('http://localhost:8080/api/admin/all').subscribe({
+      next: (users) => {
+        console.log('Users fetched:', users);
+        this.isRegisterAllowed = users.length < 3;
+        console.log('isRegisterAllowed:', this.isRegisterAllowed);
+      },
+      error: (error) => {
+        console.error('Error fetching users:', error);
+        this.isRegisterAllowed = false;
+      },
+    });
+  }
 
   onSubmit() {
     const payload = { username: this.email, password: this.password };
-  
-    this.http.post('http://localhost:8080/api/admin/login', payload, { responseType: 'text' })
+
+    this.http
+      .post('http://localhost:8080/api/admin/login', payload, {
+        responseType: 'text',
+      })
       .subscribe({
         next: (response) => {
           alert(response);
           if (response === 'Login successful!') {
-            this.authService.login(); // Set the login state
-            this.router.navigate(['/loggedpage']); // Navigate to the logged page
+            this.authService.login();
+            this.router.navigate(['/loggedpage']);
           }
         },
         error: (error) => {
           alert('Login failed. Please try again.');
           console.error('Login Error:', error);
-        }
+        },
       });
   }
 
@@ -100,13 +84,20 @@ getusers(): void {
     const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/;
 
     if (!regex.test(this.registerPassword)) {
-      this.passwordError = 'Password must include 1 uppercase letter, 1 special character, and 1 number.';
+      this.passwordError =
+        'Password must include 1 uppercase letter, 1 special character, and 1 number.';
       return;
     }
 
-    const payload = { username: this.registerEmail, password: this.registerPassword };
+    const payload = {
+      username: this.registerEmail,
+      password: this.registerPassword,
+    };
 
-    this.http.post('http://localhost:8080/api/admin/register', payload, { responseType: 'text' })
+    this.http
+      .post('http://localhost:8080/api/admin/register', payload, {
+        responseType: 'text',
+      })
       .subscribe({
         next: (response) => {
           alert(response);
@@ -115,18 +106,21 @@ getusers(): void {
         error: (error) => {
           alert('Registration failed. Please try again.');
           console.error('Register Error:', error);
-        }
+        },
       });
   }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-  
+
   toggleRegisterPasswordVisibility() {
     this.showRegisterPassword = !this.showRegisterPassword;
   }
 
-
+onForgotPassword(event: Event) {
+  event.preventDefault();
+  this.router.navigate(['/forgot-password']);
+}
 
 }

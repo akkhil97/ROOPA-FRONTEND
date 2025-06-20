@@ -1,4 +1,9 @@
 <section class="login-container">
+    <img
+    src="assets/loginImage.jpg"
+    alt="Login Background"
+    class="background-img"
+  />
   <div class="login">
     <h2 *ngIf="!showRegister" class="title">Admin Login</h2>
     <h2 *ngIf="showRegister" class="title">Register</h2>
@@ -7,21 +12,20 @@
     <p *ngIf="!isRegisterAllowed" class="status-message error">Maximum users reached, please login.</p>
     <p *ngIf="isRegisterAllowed" class="status-message success">Registration is open! You can register below.</p>
 
-
     <!-- Login Form -->
     <form *ngIf="!showRegister" (ngSubmit)="onSubmit()" class="form">
       <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required class="input-field">
       <input type="password" placeholder="Password" [(ngModel)]="password" name="password" required class="input-field">
       <button type="submit" class="submit-btn">Login</button>
       <button type="button" *ngIf="isRegisterAllowed" (click)="toggleForm()" class="toggle-btn">Register</button>
+      <!-- Forgot Password Link -->
+      <a href="#" (click)="onForgotPassword($event)" class="forgot-password-link">Forgot Password?</a>
     </form>
 
     <!-- Register Form -->
     <form *ngIf="showRegister" (ngSubmit)="onRegister()" class="form">
-      <input type="text" placeholder="Username" [(ngModel)]="registerEmail" name="registerEmail" required
-        class="input-field">
-      <input type="password" placeholder="Password" [(ngModel)]="registerPassword" name="registerPassword" required
-        class="input-field">
+      <input type="text" placeholder="Username" [(ngModel)]="registerEmail" name="registerEmail" required class="input-field">
+      <input type="password" placeholder="Password" [(ngModel)]="registerPassword" name="registerPassword" required class="input-field">
       <div *ngIf="passwordError" class="error">{{ passwordError }}</div>
       <button type="submit" class="submit-btn" [disabled]="!isRegisterAllowed">Register</button>
       <button type="button" (click)="toggleForm()" class="toggle-btn">Back to Login</button>

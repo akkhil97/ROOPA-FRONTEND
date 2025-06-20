@@ -2,42 +2,64 @@
   <div class="header-container">
     <div class="logo-box">
       <img
-        src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4noOprTuvbdN1uv_PPpbXoF2KrCJrBdlXX6yvDgZQI2P1o3mEVfYVaC58VSWXoUYojJIfnkNdib8fF8VAln85__5UEfNy4PdsAd5dC2q9iloQyzd0vSHzLtnabxsJ0hh8bb8Yb05=s1360-w1360-h1020-rw"
-        alt="School Logo" class="school-logo" />
+        src="assets/ROOPALOGO.webp"
+        alt="School Logo"
+        class="school-logo"
+      />
       <div class="school-title">
         <h1>Roopa Educational Society</h1>
         <span class="tagline">Empowering through Education</span>
       </div>
     </div>
 
+    <!-- Hamburger Button for Mobile -->
+    <button class="menu-button" (click)="toggleMenu()">
+      <span [class.active]="isMenuOpen"></span>
+      <span [class.active]="isMenuOpen"></span>
+      <span [class.active]="isMenuOpen"></span>
+    </button>
+
     <nav class="nav-links" [class.open]="isMenuOpen">
-      <!-- Show menuItems only if NOT on LoggedPage -->
       <ng-container *ngIf="!isLoggedPage()">
-        <a *ngFor="let item of menuItems" [href]="item.link" class="nav-item" (click)="toggleMenu()">
+        <a
+          *ngFor="let item of menuItems"
+          [href]="item.link"
+          class="nav-item"
+          (click)="toggleMenu()"
+        >
           {{ item.name }}
         </a>
       </ng-container>
 
-      <!-- Admin Options -->
       <ng-container *ngIf="authService.isLoggedIn(); else loginLink">
         <a (click)="toggleSettingsPopup()" class="nav-item">Admin Settings</a>
         <a (click)="logout()" class="nav-item">Admin Logout</a>
       </ng-container>
 
       <ng-template #loginLink>
-        <a [routerLink]="[loginItem.route]" class="nav-item" (click)="toggleMenu()">
+        <a
+          [routerLink]="[loginItem.route]"
+          class="nav-item"
+          (click)="toggleMenu()"
+        >
           {{ loginItem.name }}
         </a>
       </ng-template>
     </nav>
   </div>
 
+
 <!-- Settings Popup -->
 <div class="popup-overlay active" *ngIf="isSettingsOpen">
   <div class="settings-popup">
-    <h3>Update Credentials</h3>
+    <h3>Change Password</h3>
 
-    <input type="text" placeholder="New Username" [(ngModel)]="newUsername" />
+    <input type="text" placeholder="Your Email" [(ngModel)]="email" />
+
+    <div style="display: flex; gap: 10px;">
+      <input type="text" placeholder="Enter OTP" [(ngModel)]="otp" style="flex:1" />
+      <button (click)="sendOtp()">Send OTP</button>
+    </div>
 
     <input type="password" placeholder="New Password" [(ngModel)]="newPassword" />
 
@@ -47,9 +69,10 @@
     <div *ngIf="passwordError" style="color: red; font-size: 0.9rem;">{{ passwordError }}</div>
 
     <div class="button-group" style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
-      <button (click)="saveCredentials()">Save</button>
+      <button (click)="changePassword()">Change Password</button>
       <button (click)="toggleSettingsPopup()">Cancel</button>
     </div>
   </div>
 </div>
+
 </header>

@@ -15,7 +15,8 @@ export class HeaderComponent {
   isMenuOpen = false;
   isSettingsOpen = false;
 
-  newUsername = '';
+  email = '';
+  otp = '';
   newPassword = '';
   confirmPassword = '';
   passwordError = '';
@@ -28,21 +29,38 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/']); // navigate to home after logout
+    this.router.navigate(['/']);
   }
 
   toggleSettingsPopup() {
     this.isSettingsOpen = !this.isSettingsOpen;
     if (this.isSettingsOpen) {
-      // Pre-fill with current username when opening
-      this.newUsername = this.authService.getCurrentUsername();
+      this.email = this.authService.getCurrentUsername(); // pre-fill email
+      this.otp = '';
       this.newPassword = '';
       this.confirmPassword = '';
       this.passwordError = '';
     }
   }
 
-  saveCredentials() {
+  sendOtp() {
+    if (!this.email) {
+      alert('Please enter your email.');
+      return;
+    }
+
+    this.authService.sendOtp(this.email).subscribe({
+      next: (response: string) => {
+        alert(response);
+      },
+      error: (err) => {
+        console.error('Failed to send OTP', err);
+        alert('Failed to send OTP.');
+      },
+    });
+  }
+
+  changePassword() {
     const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).{6,}$/;
 
     if (!regex.test(this.newPassword)) {
@@ -56,26 +74,32 @@ export class HeaderComponent {
       return;
     }
 
+    if (!this.otp) {
+      this.passwordError = 'Please enter OTP.';
+      return;
+    }
+
     this.passwordError = '';
 
     this.authService
-      .updateCredentials(this.newUsername, this.newPassword)
+      .resetPassword(this.email, this.otp, this.newPassword)
       .subscribe({
         next: (response: string) => {
-          alert(response); // show response popup
-          if (response.includes('success')) {
-            this.authService.setCurrentUsername(this.newUsername);
+          alert(response);
+          if (response.includes('successful')) {
+            this.authService.setCurrentUsername(this.email);
           }
-          this.toggleSettingsPopup(); // close popup
+          this.toggleSettingsPopup();
         },
         error: (err) => {
-          console.error('Update failed', err);
-          alert('Failed to update credentials.');
+          console.error('Failed to change password', err);
+          alert('Failed to change password.');
         },
       });
   }
 
-  // Your original nav items — untouched
+
+  // No change to nav items
   menuItems = [
     { name: 'Home', link: '#home' },
     { name: 'About', link: '#about' },
@@ -85,11 +109,10 @@ export class HeaderComponent {
     { name: 'Contact', link: '#contact' },
   ];
 
-  // Separate route-based item — untouched
   loginItem = { name: 'Admin Login', route: '/login' };
 
-  // Helper → check if on logged page
   isLoggedPage(): boolean {
     return this.router.url.startsWith('/logged');
   }
 }
+

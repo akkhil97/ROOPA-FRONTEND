@@ -10,6 +10,8 @@ import { HeroComponent } from './hero/hero.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { LoggedPageComponent } from './loggedpage/loggedpage.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +23,8 @@ export const routes: Routes = [
   { path: 'gallery', component: GalleryComponent },
   { path: 'login', component: LoginComponent },
   { path: 'loggedpage', component: LoggedPageComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: '**', redirectTo: '' },
 ];
 

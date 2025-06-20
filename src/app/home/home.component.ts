@@ -11,7 +11,7 @@ import { ContactComponent } from "../contact/contact.component";
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent, AboutComponent, KindergartenComponent, GalleryComponent, ContactComponent, NoticeBoardComponent],
+  imports: [HeroComponent, AboutComponent, KindergartenComponent, GalleryComponent, ContactComponent, NoticeBoardComponent, StaffComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

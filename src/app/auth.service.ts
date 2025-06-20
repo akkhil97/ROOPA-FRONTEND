@@ -14,7 +14,7 @@ export class AuthService {
   private loggedIn = false;
   private currentUsername = 'ROOPASCHOOLADMIN';
 
-   constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   isLoggedIn(): boolean {
     return sessionStorage.getItem('loggedIn') === 'true';
@@ -36,10 +36,29 @@ export class AuthService {
     sessionStorage.setItem('username', username);
   }
 
-  updateCredentials(username: string, password: string): Observable<any> {
-    const userData = { username, password };
-    return this.http.put('http://localhost:8080/api/admin/update', userData, {
-      responseType: 'text',
-    });
+  private baseUrl = 'http://localhost:8080/api/admin';
+
+sendOtp(email: string): Observable<string> {
+  return this.http.post(
+    this.baseUrl + '/send-otp',
+    { email: email }, // ✅ match the backend
+    { responseType: 'text' }
+  );
+}
+
+  resetPassword(
+    email: string,
+    otp: string,
+    newPassword: string
+  ): Observable<string> {
+    return this.http.post(
+      `${this.baseUrl}/reset-password?email=${encodeURIComponent(
+        email
+      )}&otp=${encodeURIComponent(otp)}&newPassword=${encodeURIComponent(
+        newPassword
+      )}`,
+      {},
+      { responseType: 'text' }
+    );
   }
 }
