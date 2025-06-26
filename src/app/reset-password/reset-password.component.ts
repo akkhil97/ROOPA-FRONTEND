@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../auth.service';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -17,13 +17,13 @@ export class ResetPasswordComponent implements OnInit {
   newPassword: string = '';
 
   constructor(
-    private authService: AuthService,
+    private adminService: AdminService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.email = params['email'] || '';
     });
   }
@@ -34,18 +34,20 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
 
-    this.authService.resetPassword(this.email, this.otp, this.newPassword).subscribe({
-      next: (response) => {
-        alert(response);
-        if (response.includes('successful')) {
-          this.router.navigate(['/login']);
-        }
-      },
-      error: (error) => {
-        alert('Error resetting password. Please try again.');
-        console.error('Reset Password Error:', error);
-      },
-    });
+    this.adminService
+      .resetPassword(this.email, this.otp, this.newPassword)
+      .subscribe({
+        next: (response) => {
+          alert(response);
+          if (response.includes('successful')) {
+            this.router.navigate(['/login']);
+          }
+        },
+        error: (error) => {
+          alert('Error resetting password. Please try again.');
+          console.error('Reset Password Error:', error);
+        },
+      });
   }
 
   goBackToLogin() {

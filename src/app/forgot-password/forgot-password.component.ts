@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../auth.service';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,7 +14,7 @@ import { AuthService } from '../auth.service';
 export class ForgotPasswordComponent {
   forgotEmail: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private adminService: AdminService, private router: Router) {}
 
   onForgotPassword() {
     if (!this.forgotEmail) {
@@ -22,16 +22,22 @@ export class ForgotPasswordComponent {
       return;
     }
 
-    this.authService.sendOtp(this.forgotEmail).subscribe({
+    this.adminService.sendOtp(this.forgotEmail).subscribe({
       next: (response) => {
-        alert(response);   // shows "OTP sent successfully"
+        alert(response);
+        this.router.navigate(['/reset-password'], {
+          queryParams: { email: this.forgotEmail },
+        });
         this.forgotEmail = '';
-        
-        // Navigate to Reset Password page and pass email (optional)
-        this.router.navigate(['/reset-password'], { queryParams: { email: this.forgotEmail } });
       },
       error: (error) => {
-        alert('Error sending reset email. Please try again.');
+        if (error.status === 404) {
+          alert(
+            'No user is registered with this email. Please check and try again.'
+          );
+        } else {
+          alert('Something went wrong. Please try again later.');
+        }
         console.error('Forgot Password Error:', error);
       },
     });

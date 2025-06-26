@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-login',
@@ -24,16 +24,16 @@ export class LoginComponent implements OnInit {
   showRegisterPassword: boolean = false;
 
   constructor(
-    private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private adminService: AdminService
   ) {}
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/loggedpage']);
     } else {
-      this.getusers();
+      this.getUsers();
     }
   }
 
@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit {
     this.registerPassword = '';
   }
 
-  getusers(): void {
-    this.http.get<any[]>('http://localhost:8080/api/admin/all').subscribe({
+  getUsers(): void {
+    this.adminService.getUsers().subscribe({
       next: (users) => {
         console.log('Users fetched:', users);
         this.isRegisterAllowed = users.length < 3;
@@ -60,54 +60,38 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const payload = { username: this.email, password: this.password };
-
-    this.http
-      .post('http://localhost:8080/api/admin/login', payload, {
-        responseType: 'text',
-      })
-      .subscribe({
-        next: (response) => {
-          alert(response);
-          if (response === 'Login successful!') {
-            this.authService.login();
-            this.router.navigate(['/loggedpage']);
-          }
-        },
-        error: (error) => {
-          alert('Login failed. Please try again.');
-          console.error('Login Error:', error);
-        },
-      });
+    this.adminService.login(payload.username, payload.password).subscribe({
+      next: (response) => {
+        alert(response);
+        if (response === 'Login successful!') {
+          this.authService.login();
+          this.router.navigate(['/loggedpage']);
+        }
+      },
+      error: (error) => {
+        alert('Login failed. Please try again.');
+        console.error('Login Error:', error);
+      },
+    });
   }
 
   onRegister() {
     const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).+$/;
-
     if (!regex.test(this.registerPassword)) {
       this.passwordError =
         'Password must include 1 uppercase letter, 1 special character, and 1 number.';
       return;
     }
-
-    const payload = {
-      username: this.registerEmail,
-      password: this.registerPassword,
-    };
-
-    this.http
-      .post('http://localhost:8080/api/admin/register', payload, {
-        responseType: 'text',
-      })
-      .subscribe({
-        next: (response) => {
-          alert(response);
-          this.toggleForm();
-        },
-        error: (error) => {
-          alert('Registration failed. Please try again.');
-          console.error('Register Error:', error);
-        },
-      });
+    this.adminService.register(this.registerEmail, this.registerPassword).subscribe({
+      next: (response) => {
+        alert(response);
+        this.toggleForm();
+      },
+      error: (error) => {
+        alert('Registration failed. Please try again.');
+        console.error('Register Error:', error);
+      },
+    });
   }
 
   togglePasswordVisibility() {
@@ -118,9 +102,8 @@ export class LoginComponent implements OnInit {
     this.showRegisterPassword = !this.showRegisterPassword;
   }
 
-onForgotPassword(event: Event) {
-  event.preventDefault();
-  this.router.navigate(['/forgot-password']);
-}
-
+  onForgotPassword(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/forgot-password']);
+  }
 }

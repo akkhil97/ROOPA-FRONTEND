@@ -21,7 +21,6 @@
 
     <div class="modal-fullscreen" *ngIf="showModal" (click)="closeGallery()">
       <div class="modal-gallery-content" (click)="$event.stopPropagation()">
-        <!-- <button class="modal-close" (click)="closeGallery()">✖ Close</button> -->
         <h2 class="modal-title">{{ selectedItem?.title }}</h2>
 
         <div class="modal-gallery-image-container">
@@ -35,6 +34,8 @@
         <div class="modal-controls">
           <button class="download-button" (click)="downloadImage(selectedItem?.photos[currentPhotoIndex])">⬇️
             Download</button>
+            <button class="modal-close" (click)="closeGallery()">✖ Close</button>
+
           <span class="photo-counter">{{ currentPhotoIndex + 1 }} / {{ selectedItem?.photos.length }}</span>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,7 @@ export class HeaderComponent {
   confirmPassword = '';
   passwordError = '';
 
-  constructor(public authService: AuthService, public router: Router) {}
+  constructor(public adminService: AdminService, public router: Router, public authService: AuthService) {}
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -49,7 +50,7 @@ export class HeaderComponent {
       return;
     }
 
-    this.authService.sendOtp(this.email).subscribe({
+    this.adminService.sendOtp(this.email).subscribe({
       next: (response: string) => {
         alert(response);
       },
@@ -60,43 +61,49 @@ export class HeaderComponent {
     });
   }
 
-  changePassword() {
-    const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).{6,}$/;
+changePassword() {
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).{6,}$/;
 
-    if (!regex.test(this.newPassword)) {
-      this.passwordError =
-        'Password must include at least 1 uppercase letter, 1 special character, 1 number, and be at least 6 characters.';
-      return;
-    }
-
-    if (this.newPassword !== this.confirmPassword) {
-      this.passwordError = 'Passwords do not match.';
-      return;
-    }
-
-    if (!this.otp) {
-      this.passwordError = 'Please enter OTP.';
-      return;
-    }
-
-    this.passwordError = '';
-
-    this.authService
-      .resetPassword(this.email, this.otp, this.newPassword)
-      .subscribe({
-        next: (response: string) => {
-          alert(response);
-          if (response.includes('successful')) {
-            this.authService.setCurrentUsername(this.email);
-          }
-          this.toggleSettingsPopup();
-        },
-        error: (err) => {
-          console.error('Failed to change password', err);
-          alert('Failed to change password.');
-        },
-      });
+  // 1. Validate password format
+  if (!passwordRegex.test(this.newPassword)) {
+    this.passwordError =
+      'Password must include at least 1 uppercase letter, 1 special character, 1 number, and be at least 6 characters.';
+    return;
   }
+
+  // 2. Match confirm password
+  if (this.newPassword !== this.confirmPassword) {
+    this.passwordError = 'Passwords do not match.';
+    return;
+  }
+
+  // 3. OTP required
+  if (!this.otp) {
+    this.passwordError = 'Please enter the OTP sent to your email.';
+    return;
+  }
+
+  // 4. Clear errors before API call
+  this.passwordError = '';
+
+  // 5. Call backend API
+  this.adminService.changePassword(this.email, this.otp, this.newPassword).subscribe({
+    next: (response: string) => {
+      alert(response);
+      if (response.includes('successfully')) {
+        this.authService.setCurrentUsername(this.email); // Optional
+        this.toggleSettingsPopup(); // Close modal
+      } else {
+        this.passwordError = response; // Show backend errors like "same password"
+      }
+    },
+    error: (err) => {
+      console.error('Failed to change password', err);
+      this.passwordError = err.error || 'Failed to change password.';
+    },
+  });
+}
+
 
 
   // No change to nav items

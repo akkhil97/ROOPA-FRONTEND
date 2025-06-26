@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-gallery',
@@ -16,31 +16,28 @@ export class GalleryComponent implements OnInit {
   selectedItem: any = null;
   currentPhotoIndex = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
     this.loadGalleryItems();
   }
 
   loadGalleryItems(): void {
-    this.http.get<any[]>('http://localhost:8080/api/media').subscribe({
+    this.adminService.getGalleryItems().subscribe({
       next: (response) => {
         this.galleryItems = response.map((media) => {
           const photos: string[] = [];
-
-          // Assuming your API sends base64 encoded photos like photo1, photo2, ..., photo15
           for (let i = 1; i <= 20; i++) {
             const photoKey = `photo${i}`;
             if (media[photoKey]) {
               photos.push(`data:image/jpeg;base64,${media[photoKey]}`);
             }
           }
-
           return {
             id: media.id,
             title: media.title,
             postedDate: media.postedDate,
-            image: photos[0], // first photo as thumbnail
+            image: photos[0],
             photos: photos,
           };
         });
@@ -87,26 +84,21 @@ export class GalleryComponent implements OnInit {
     a.click();
   }
 
-formatPostedDate(postedDate: string): string {
-  if (!postedDate) return 'Date unknown';
-
-  const postDate = new Date(postedDate);
-  const today = new Date();
-  const diffTime = today.getTime() - postDate.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  if (diffDays <= 3) {
-    return '✨ NEW';
-  } else if (diffDays <= 10) {
-    return `Posted ${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-  } else {
-    const dd = String(postDate.getDate()).padStart(2, '0');
-    const mm = String(postDate.getMonth() + 1).padStart(2, '0');
-    const yyyy = postDate.getFullYear();
-    return `Posted on ${dd}/${mm}/${yyyy}`;
+  formatPostedDate(postedDate: string): string {
+    if (!postedDate) return 'Date unknown';
+    const postDate = new Date(postedDate);
+    const today = new Date();
+    const diffTime = today.getTime() - postDate.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays <= 3) {
+      return '✨ NEW';
+    } else if (diffDays <= 10) {
+      return `Posted ${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    } else {
+      const dd = String(postDate.getDate()).padStart(2, '0');
+      const mm = String(postDate.getMonth() + 1).padStart(2, '0');
+      const yyyy = postDate.getFullYear();
+      return `Posted on ${dd}/${mm}/${yyyy}`;
+    }
   }
-}
-
-
-
 }

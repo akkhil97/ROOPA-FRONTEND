@@ -6,30 +6,30 @@
   </div>
 </div>
 
-<div  *ngIf="!isLoggedOut" class="app-container">
+<div *ngIf="!isLoggedOut" class="app-container">
   <div class="content">
-
     <div class="toggle-bar">
-      <button [class.active]="activeTab === 'notices'" (click)="activeTab = 'notices'">📢 Notices</button>
-      <button [class.active]="activeTab === 'photos'" (click)="activeTab = 'photos'">📸 Photos</button>
+      <button [class.active]="activeTab === 'notices'" (click)="activeTab = 'notices'" aria-label="View Notices">📢 Notices</button>
+      <button [class.active]="activeTab === 'photos'" (click)="activeTab = 'photos'" aria-label="View Photos">📸 Photos</button>
     </div>
 
     <!-- Notices Section -->
     <section *ngIf="activeTab === 'notices'">
       <div class="card">
         <h2>📌 Post / Update Notice</h2>
-        <input type="text" placeholder="Notice Title" [(ngModel)]="form.title" />
-        <textarea placeholder="Notice Description" [(ngModel)]="form.description"></textarea>
-        <input type="date" [(ngModel)]="form.postedDate" />
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button (click)="saveNotice()">{{ form.id ? 'Update' : 'Post' }}</button>
-          <button *ngIf="form.id" type="button" (click)="resetForm()">Cancel</button>
-        </div>
+        <form>
+          <input type="text" placeholder="Notice Title" [(ngModel)]="form.title" name="title" aria-label="Notice Title" required />
+          <textarea placeholder="Notice Description" [(ngModel)]="form.description" name="description" aria-label="Notice Description" required></textarea>
+          <input type="date" [(ngModel)]="form.postedDate" name="postedDate" aria-label="Posted Date" required />
+          <div class="button-group">
+            <button type="button" (click)="saveNotice()">{{ form.id ? 'Update' : 'Post' }}</button>
+            <button *ngIf="form.id" type="button" (click)="resetForm()">Cancel</button>
+          </div>
+        </form>
       </div>
-
       <div class="card">
         <h2>📄 Existing Notices</h2>
-        <ul style="list-style: none; padding: 0;">
+        <ul aria-label="Existing Notices">
           <li *ngFor="let notice of notices" class="notice-item">
             <div class="notice-content">
               <div class="notice-title">{{ notice.title }}</div>
@@ -37,8 +37,8 @@
               <div class="notice-date">📅 {{ notice.postedDateTime | date: 'yyyy-MM-dd' }}</div>
             </div>
             <div class="notice-actions">
-              <button (click)="editNotice(notice)">Edit</button>
-              <button (click)="deleteNotice(notice.id)">Delete</button>
+              <button class="editbtn" (click)="editNotice(notice)" aria-label="Edit Notice"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button class="deletebtn" (click)="deleteNotice(notice.id)" aria-label="Delete Notice"><i class="fa-solid fa-trash"></i></button>
             </div>
           </li>
         </ul>
@@ -49,57 +49,51 @@
     <section *ngIf="activeTab === 'photos'">
       <div class="card">
         <h2>📸 Post Photos</h2>
-        <input type="text" placeholder="Photo Title" [(ngModel)]="photoForm.title" />
-        <input type="date" [(ngModel)]="photoForm.postedDate" />
-        <input type="file" (change)="onFileSelected($event)" multiple accept="image/*" />
-        <div class="file-info">
-          Selected: {{ selectedFiles.length }} / 20 photos max
-        </div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button (click)="uploadPhotos()" [disabled]="selectedFiles.length === 0 || selectedFiles.length > 20">
-            Upload Photos
-          </button>
-          <button *ngIf="photoForm.id" (click)="updatePhoto()" [disabled]="selectedFiles.length === 0 || selectedFiles.length > 20">
-            Update Photos
-          </button>
-          <button *ngIf="photoForm.id" (click)="resetPhotoForm()">Cancel</button>
-        </div>
+        <form>
+          <input type="text" placeholder="Photo Title" [(ngModel)]="photoForm.title" name="photoTitle" aria-label="Photo Title" required />
+          <input type="date" [(ngModel)]="photoForm.postedDate" name="photoPostedDate" aria-label="Posted Date" required />
+          <input type="file" (change)="onFileSelected($event)" multiple accept="image/*" aria-label="Select Photos" />
+          <div class="file-info">
+            Selected: {{ selectedFiles.length }} / 20 photos max
+          </div>
+          <div class="button-group">
+            <button type="button" (click)="uploadPhotos()" [disabled]="selectedFiles.length === 0 || selectedFiles.length > 20" aria-label="Upload Photos">
+              {{ photoForm.id ? 'Update Photos' : 'Upload Photos' }}
+            </button>
+            <button *ngIf="photoForm.id" type="button" (click)="resetPhotoForm()" aria-label="Cancel">Cancel</button>
+          </div>
+        </form>
       </div>
-
       <div class="card">
         <h2>📁 Existing Photo Sets</h2>
         <div *ngFor="let item of galleryItems" class="photo-set">
           <h3>{{ item.title }} ({{ item.postedDate }})</h3>
           <div class="gallery-grid">
-            <div *ngFor="let photo of item.photos" class="gallery-item" (click)="openGallery(item)">
+            <div *ngFor="let photo of item.photos" class="gallery-item" (click)="openGallery(item)" aria-label="Open Gallery">
               <img [src]="photo" [alt]="item.title" class="gallery-image" />
             </div>
           </div>
-          <div style="display: flex; gap: 10px; margin-top: 5px;">
-            <button (click)="editPhoto(item)">Edit Set</button>
-            <button (click)="deletePhoto(item.id)">🗑️ Delete Set</button>
+          <div class="button-group">
+            <button class="editbtn" (click)="editPhoto(item)" aria-label="Edit Photo Set">Edit Set <i class="fa-solid fa-pen-to-square"></i></button>
+            <button class="deletebtn" (click)="deletePhoto(item.id)" aria-label="Delete Photo Set">Delete Set <i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Modal Gallery -->
-    <div class="modal-fullscreen" *ngIf="showModal" (click)="closeGallery()">
+    <div class="modal-fullscreen" *ngIf="showModal" (click)="closeGallery()" aria-label="Close Gallery">
       <div class="modal-gallery-content" (click)="$event.stopPropagation()">
         <h2 class="modal-title">{{ selectedItem?.title }}</h2>
         <div class="modal-gallery-image-container">
-          <button class="arrow-button left" (click)="prevImage($event)">◀️</button>
+          <button class="arrow-button left" (click)="prevImage($event)" aria-label="Previous Image">◀️</button>
           <img [src]="selectedItem?.photos[currentPhotoIndex]" alt="Gallery Photo" class="modal-gallery-image" />
-          <button class="arrow-button right" (click)="nextImage($event)">▶️</button>
+          <button class="arrow-button right" (click)="nextImage($event)" aria-label="Next Image">▶️</button>
         </div>
         <div class="modal-controls">
-          <!-- <button (click)="downloadImage(selectedItem?.photos[currentPhotoIndex])">⬇️ Download</button> -->
           <span class="photo-counter">{{ currentPhotoIndex + 1 }} / {{ selectedItem?.photos.length }}</span>
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
-
