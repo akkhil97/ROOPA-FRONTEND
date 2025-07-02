@@ -2,11 +2,9 @@
   <div class="login">
     <h2 *ngIf="!showRegister" class="title">Admin Login</h2>
     <h2 *ngIf="showRegister" class="title">Register</h2>
-
     <!-- Debugging message -->
     <p *ngIf="!isRegisterAllowed" class="status-message error">Maximum users reached, please login.</p>
     <p *ngIf="isRegisterAllowed" class="status-message success">Registration is open! You can register below.</p>
-
     <!-- Login Form -->
     <form *ngIf="!showRegister" (ngSubmit)="onSubmit()" class="form">
       <input type="email" placeholder="Email" [(ngModel)]="email" name="email" required class="input-field">

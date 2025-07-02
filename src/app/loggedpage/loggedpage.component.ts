@@ -65,11 +65,22 @@ export class LoggedPageComponent implements OnInit {
   }
 
   // Notices methods
-  fetchNotices() {
-    this.adminService.getNotices().subscribe((data) => {
-      this.notices = data;
+fetchNotices() {
+  this.adminService.getNotices().subscribe((data) => {
+    this.notices = data.map((notice) => {
+      const utcDate = new Date(notice.postedDateTime);
+ 
+      // Convert UTC date to local date (IST)
+      const istOffset = 5.5 * 60 * 60 * 1000; // 5.5 hours in ms
+      const localDate = new Date(utcDate.getTime() + istOffset);
+ 
+      return {
+        ...notice,
+        postedDateTime: localDate, // override with local date
+      };
     });
-  }
+  });
+}
 
   saveNotice() {
     const date = this.form.postedDate;

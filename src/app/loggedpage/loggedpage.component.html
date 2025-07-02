@@ -34,7 +34,7 @@
             <div class="notice-content">
               <div class="notice-title">{{ notice.title }}</div>
               <div class="notice-description">{{ notice.description }}</div>
-              <div class="notice-date">📅 {{ notice.postedDateTime | date: 'yyyy-MM-dd' }}</div>
+              <div class="notice-date">Posted this on 📅 {{ notice.postedDateTime | date: 'dd-MM-yyyy' }}</div>
             </div>
             <div class="notice-actions">
               <button class="editbtn" (click)="editNotice(notice)" aria-label="Edit Notice"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -67,7 +67,7 @@
       <div class="card">
         <h2>📁 Existing Photo Sets</h2>
         <div *ngFor="let item of galleryItems" class="photo-set">
-          <h3>{{ item.title }} ({{ item.postedDate }})</h3>
+          <h3>{{ item.title }} : Posted these on ({{ item.postedDate  | date: 'dd-MM-yyyy'  }})</h3>
           <div class="gallery-grid">
             <div *ngFor="let photo of item.photos" class="gallery-item" (click)="openGallery(item)" aria-label="Open Gallery">
               <img [src]="photo" [alt]="item.title" class="gallery-image" />

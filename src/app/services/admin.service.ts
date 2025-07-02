@@ -112,4 +112,32 @@ changePassword(email: string, otp: string, newPassword: string): Observable<stri
     }
   );
 }
+
+  /**
+   * Uploads a notice with a PDF file
+   * @param title - Notice title
+   * @param pdfFile - PDF File object
+   */
+  uploadPdfNotice(title: string, pdfFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('pdfFile', pdfFile);
+    return this.http.post(`${this.apiBaseUrl}/upload`, formData);
+  }
+
+  /**
+   * Fetches all active notices (with non-expired PDFs)
+   */
+  getAllPdfNotices(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiBaseUrl}/all`);
+  }
+
+  /**
+   * Returns the download URL for a notice by ID
+   * (Used for direct linking in the UI)
+   * @param id - Notice ID
+   */
+  getPdfDownloadUrl(id: number): string {
+    return `${this.apiBaseUrl}/download/${id}`;
+  }
 }

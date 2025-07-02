@@ -15,7 +15,7 @@
 }
 
 .header-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: auto;
   display: flex;
   align-items: center;
@@ -270,4 +270,5 @@
 .settings-popup button:active {
   transform: scale(0.97);
 }
+
 
