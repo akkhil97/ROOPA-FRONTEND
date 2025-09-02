@@ -3,5 +3,5 @@ export const environment = {
   standalone: true,
 
   /////    SPRIGBOOT PORT URL /////
-  apiUrl: 'https://roopaeducationalsociety.com/api',
+  apiUrl: 'http://ec2-13-203-201-70.ap-south-1.compute.amazonaws.com:8080',
 };
