@@ -20,10 +20,9 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
- "assets": [
+            "assets": [
               "src/assets"
             ],
- 
             "styles": [
               "src/styles.css"
             ],
@@ -39,8 +38,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "10kB",
+                  "maximumError": "20kB"
                 }
               ],
               "outputHashing": "all"
@@ -82,10 +81,9 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
- "assets": [
+            "assets": [
               "src/assets"
             ],
- 
             "styles": [
               "src/styles.css"
             ],

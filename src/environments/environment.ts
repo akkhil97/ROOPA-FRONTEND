@@ -2,6 +2,11 @@ export const environment = {
   production: false,
   standalone: true,
 
-  /////    SPRIGBOOT PORT URL ////
-  apiBaseUrl: 'http://localhost:8080',
+     /////-DEPLOYED URL-/////
+
+  apiBaseUrl: 'https://api.roopaeducationalsociety.com',
+
+     /////-LOCAL URL-/////
+
+  // apiBaseUrl: 'http://localhost:8080',
 };

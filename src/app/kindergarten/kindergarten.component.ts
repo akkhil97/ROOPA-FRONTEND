@@ -47,22 +47,22 @@ export class KindergartenComponent {
 
   programs = [
     {
-      title: 'Nursery (2-3 years)',
+      title: 'Nursery',
       description: 'Introduction to structured learning through play',
       fullDescription: `In our Nursery program (2-3 years), children are introduced to a fun, structured learning environment. Activities include sensory play, basic motor skills, art & craft, music, and social interaction to stimulate their early development.`,
-      image: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop'
+      image: 'https://www.shutterstock.com/shutterstock/videos/1089298003/thumb/1.jpg?ip=x480'
     },
     {
-      title: 'LKG (3-4 years)',
+      title: 'Primary School',
       description: 'Building foundation skills in reading and writing',
       fullDescription: `Our LKG (3-4 years) program focuses on building foundational skills in reading, writing, and numeracy. Children engage in phonics-based literacy, number games, creative storytelling, music & movement, and group activities to foster teamwork.`,
-      image: 'https://images.pexels.com/photos/8471779/pexels-photo-8471779.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop'
+      image: 'https://media.istockphoto.com/id/1163980571/photo/schoolboys-and-schoolgirls-walking-of-the-school-bus.jpg?s=612x612&w=0&k=20&c=KfmKPfz-MEZQgVTKSycko4a36vimTUGBogwsBsoz1vQ='
     },
     {
-      title: 'UKG (4-5 years)',
+      title: 'Secondary School',
       description: 'Preparing for primary school with advanced concepts',
       fullDescription: `Our UKG (4-5 years) program prepares children for a smooth transition to primary school. They explore advanced literacy, numeracy, early science concepts, problem-solving, public speaking, leadership activities, and creative expression.`,
-      image: 'https://images.pexels.com/photos/8613097/pexels-photo-8613097.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop'
+      image: 'https://images.hindustantimes.com/img/2022/01/07/550x309/e5a0f698-68c0-11ec-8650-baa05d62cfe0_1640793984235_1641534508870.jpg'
     }
   ];
 

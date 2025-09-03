@@ -21,32 +21,56 @@ export class GalleryComponent implements OnInit {
   ngOnInit(): void {
     this.loadGalleryItems();
   }
+fallbackGalleryItems = [
+  {
+    title: '🪔 Sankranthi 2025',
+    postedDate: '2025-01-14',
+    image: 'assets/UGADHI/img_17_1756883650774.jpg',
+    photos: ['assets/UGADHI/img_17_1756883650774.jpg','assets/UGADHI/img_16_1756883610880.jpg']
+  },
+  {
+    title: '👨‍⚕️ Doctors Day 2025',
+    postedDate: '2025-07-01',
+    image: 'assets/DOCTORS/img_14_1756883567093.jpg',
+    photos: ['assets/DOCTORS/img_14_1756883567093.jpg','assets/DOCTORS/img_5_1756883400755.jpg','assets/DOCTORS/img_6_1756883415331.jpg']
+  },
+  {
+    title: '🕉️ Krishna Janmastami',
+    postedDate: '2025-08-24',
+    image: 'assets/JANAMASTAMI/img_9_1756883452635.jpg',
+    photos: ['assets/JANAMASTAMI/img_9_1756883452635.jpg','assets/JANAMASTAMI/img_10_1756883465104.jpg','assets/JANAMASTAMI/img_11_1756883479486.jpg','assets/JANAMASTAMI/img_12_1756883488951.jpg','assets/JANAMASTAMI/img_13_1756883503135.jpg','assets/JANAMASTAMI/img_18_1756883706959.jpg']
+  },
+];
 
-  loadGalleryItems(): void {
-    this.adminService.getGalleryItems().subscribe({
-      next: (response) => {
-        this.galleryItems = response.map((media) => {
-          const photos: string[] = [];
-          for (let i = 1; i <= 20; i++) {
-            const photoKey = `photo${i}`;
-            if (media[photoKey]) {
-              photos.push(`data:image/jpeg;base64,${media[photoKey]}`);
-            }
+loadGalleryItems(): void {
+  this.adminService.getGalleryItems().subscribe({
+    next: (response) => {
+      const mappedItems = response.map((media) => {
+        const photos: string[] = [];
+        for (let i = 1; i <= 20; i++) {
+          const photoKey = `photo${i}`;
+          if (media[photoKey]) {
+            photos.push(`data:image/jpeg;base64,${media[photoKey]}`);
           }
-          return {
-            id: media.id,
-            title: media.title,
-            postedDate: media.postedDate,
-            image: photos[0],
-            photos: photos,
-          };
-        });
-      },
-      error: (error) => {
-        console.error('Error loading gallery items:', error);
-      },
-    });
-  }
+        }
+        return {
+          id: media.id,
+          title: media.title,
+          postedDate: media.postedDate,
+          image: photos[0],
+          photos: photos,
+        };
+      });
+
+      this.galleryItems = mappedItems.length > 0 ? mappedItems : this.fallbackGalleryItems;
+    },
+    error: (error) => {
+      console.error('Error loading gallery items:', error);
+      this.galleryItems = this.fallbackGalleryItems;
+    },
+  });
+}
+
 
   openGallery(item: any): void {
     this.selectedItem = item;

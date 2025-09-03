@@ -9,17 +9,19 @@
       <div class="intro-content">
         <h3>A Special Place for Special Little Ones</h3>
         <p>
-          At Roopa Busy Bees Kindergarten, we believe that every child is unique and deserves a nurturing environment 
-          to explore, learn, and grow. Our kindergarten program is specially designed for children aged 2-5 years, 
+          At Roopa Busy Bees Kindergarten, we believe that every child is unique and deserves a nurturing environment
+          to explore, learn, and grow. Our kindergarten program is specially designed for children aged 2-5 years,
           providing a perfect blend of fun, learning, and care.
         </p>
         <p>
-          With colorful classrooms, dedicated play areas, and experienced teachers who understand the needs of young 
+          With colorful classrooms, dedicated play areas, and experienced teachers who understand the needs of young
           children, we create a home away from home where your little busy bees can thrive.
         </p>
       </div>
       <div class="intro-image">
-        <img src="https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=500&h=400&fit=crop" alt="Happy Children">
+        <img
+          src="https://content.jdmagicbox.com/comp/lucknow/q7/0522px522.x522.170113125419.i7q7/catalogue/kids-kingdom-chinhat-lucknow-schools-5ug8kwocht.jpg"
+          alt="Happy Children">
       </div>
     </div>
 
@@ -27,49 +29,49 @@
       <h3 class="features-title">What Makes Us Special</h3>
       <div class="features-grid">
         <div *ngFor="let feature of features" class="feature-card">
-          <div class="feature-icon">{{ feature.icon }}</div>
+          <div class="feature-icon" [innerHTML]="feature.icon"></div>
           <h4 class="feature-title">{{ feature.title }}</h4>
           <p class="feature-description">{{ feature.description }}</p>
         </div>
       </div>
     </div>
 
-<div class="programs-section">
-  <h3 class="programs-title">Our Programs</h3>
-  <div class="programs-grid">
-    <div *ngFor="let program of programs" class="program-card">
-      <div class="program-image">
-        <img [src]="program.image" [alt]="program.title">
-      </div>
-      <div class="program-content">
-        <h4 class="program-title">{{ program.title }}</h4>
-        <p class="program-description">{{ program.description }}</p>
-        <button class="program-btn" (click)="openOverlay(program)">Learn More</button>
+    <div class="programs-section">
+      <h3 class="programs-title">Our Programs</h3>
+      <div class="programs-grid">
+        <div *ngFor="let program of programs" class="program-card">
+          <div class="program-image">
+            <img [src]="program.image" [alt]="program.title">
+          </div>
+          <div class="program-content">
+            <h4 class="program-title">{{ program.title }}</h4>
+            <p class="program-description">{{ program.description }}</p>
+            <button class="program-btn" (click)="openOverlay(program)">Learn More</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
     <div class="cta-section">
       <div class="cta-content">
         <h3>Ready to Join Our Busy Bees Family?</h3>
         <p>Give your child the best start in their educational journey with us!</p>
-<button class="cta-btn">
-  <i class="fab fa-whatsapp"></i> Connect With Us
-</button>
+        <button class="cta-btn">
+          <i class="fab fa-whatsapp"></i> Connect With Us
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Overlay Popover -->
-<div class="overlay" *ngIf="selectedProgram">
-  <div class="overlay-content">
-    <button class="close-btn" (click)="closeOverlay()">✖</button>
-    <img [src]="selectedProgram.image" [alt]="selectedProgram.title" class="overlay-image">
-    <h3 class="overlay-title">{{ selectedProgram.title }}</h3>
-    <p class="overlay-description">
-      {{ selectedProgram.fullDescription || selectedProgram.description }}
-    </p>
+  <div class="overlay" *ngIf="selectedProgram">
+    <div class="overlay-content">
+      <button class="close-btn" (click)="closeOverlay()">✖</button>
+      <img [src]="selectedProgram.image" [alt]="selectedProgram.title" class="overlay-image">
+      <h3 class="overlay-title">{{ selectedProgram.title }}</h3>
+      <p class="overlay-description">
+        {{ selectedProgram.fullDescription || selectedProgram.description }}
+      </p>
+    </div>
   </div>
-</div>
 </section>
