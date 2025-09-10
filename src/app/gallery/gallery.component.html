@@ -4,33 +4,36 @@
       <h2 class="section-title">📸 School Gallery</h2>
       <p class="section-subtitle">Capturing precious moments and memories</p>
     </div>
+
+    <!-- Gallery Grid -->
     <div class="gallery-grid">
       <div *ngFor="let item of galleryItems" class="gallery-item" (click)="openGallery(item)">
-        <div class="gallery-caption">
-          <h3 class="gallery-title flag-title">{{ item.title }}</h3>
-        </div>
-        <div class="gallery-image-container">
-          <img [src]="item.image" [alt]="item.title" class="gallery-image" />
-          <div class="gallery-overlay">
-            <p class="gallery-posted-date" [ngClass]="{'new-label': formatPostedDate(item.postedDate) === 'NEW'}">
-              {{ formatPostedDate(item.postedDate) }}
-            </p>
-          </div>
+        <img [src]="item.image" [alt]="item.title" class="gallery-image" />
+        <div class="gallery-info-bar">
+          <h3 class="gallery-title">{{ item.title }}</h3>
+          <p class="gallery-posted-date">{{ formatPostedDate(item.postedDate) }}</p>
         </div>
       </div>
     </div>
+
     <!-- Modal Gallery -->
     <div class="modal-fullscreen" *ngIf="showModal" (click)="closeGallery()">
       <div class="modal-gallery-content" (click)="$event.stopPropagation()">
+        <button class="modal-close" (click)="closeGallery()">✖</button>
         <h2 class="modal-title">{{ selectedItem?.title }}</h2>
         <div class="modal-gallery-image-container">
-          <button class="arrow-button left" (click)="prevImage($event)"><i class="fa-solid fa-backward"></i></button>
-          <img [src]="selectedItem?.photos[currentPhotoIndex]" alt="Gallery Photo" class="modal-gallery-image">
-          <button class="arrow-button right" (click)="nextImage($event)"><i class="fa-solid fa-forward"></i></button>
+          <button class="arrow-button left" (click)="prevImage($event)">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <img [src]="selectedItem?.photos[currentPhotoIndex]" alt="Gallery Photo" class="modal-gallery-image" />
+          <button class="arrow-button right" (click)="nextImage($event)">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
         <div class="modal-controls">
-          <button class="download-button" (click)="downloadImage(selectedItem?.photos[currentPhotoIndex])">⬇️ Download</button>
-          <button class="modal-close" (click)="closeGallery()">✖</button>
+          <button class="download-button" (click)="downloadImage(selectedItem?.photos[currentPhotoIndex])">
+            ⬇️ Download
+          </button>
           <span class="photo-counter">{{ currentPhotoIndex + 1 }} / {{ selectedItem?.photos.length }}</span>
         </div>
       </div>
