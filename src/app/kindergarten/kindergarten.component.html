@@ -65,13 +65,17 @@
 
   <!-- Overlay Popover -->
   <div class="overlay" *ngIf="selectedProgram">
-    <div class="overlay-content">
-      <button class="close-btn" (click)="closeOverlay()">✖</button>
-      <img [src]="selectedProgram.image" [alt]="selectedProgram.title" class="overlay-image">
+  <div class="overlay-content">
+    <button class="close-btn" (click)="closeOverlay()">✖</button>
+    <img [src]="selectedProgram.image" [alt]="selectedProgram.title" class="overlay-image">
+
+    <div class="overlay-body">
       <h3 class="overlay-title">{{ selectedProgram.title }}</h3>
       <p class="overlay-description">
         {{ selectedProgram.fullDescription || selectedProgram.description }}
       </p>
     </div>
   </div>
+</div>
+
 </section>
