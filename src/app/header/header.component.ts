@@ -112,7 +112,7 @@ changePassword() {
     { name: 'About', link: '#about' },
     { name: 'Notice Board', link: '#notice-board' },
     { name: 'Kindergarten', link: '#kindergarten' },
-    { name: 'Gallery', link: '#gallery' },
+    // { name: 'Gallery', link: '#gallery' },
     { name: 'Contact', link: '#contact' },
   ];
 
