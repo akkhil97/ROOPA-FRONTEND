@@ -73,4 +73,9 @@ export class KindergartenComponent {
   closeOverlay() {
     this.selectedProgram = null;
   }
+  
+    openWhatsappLink(): void {
+    const whatsappUrl = 'https://chat.whatsapp.com/CKbTcjwgi4QImgWkgDzLJn';
+    window.open(whatsappUrl, '_blank');
+  }
 }
