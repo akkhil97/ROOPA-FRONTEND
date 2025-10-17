@@ -168,3 +168,180 @@
     transform: translateX(-50%);
   }
 }
+
+
+
+
+/* Popup same as before */
+/* Main overlay (transparent so background stays visible) */
+.diwali-greeting {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  pointer-events: none; /* so it doesn't block clicks */
+  animation: fadeInOutContainer 8s ease-in-out forwards;
+}
+
+/* Beautiful glowing box */
+.greeting-box {
+  background: linear-gradient(135deg, #fff6e5, #ffe5b4, #fff);
+  padding: 40px 70px;
+  border-radius: 30px;
+  box-shadow: 0 0 40px rgba(255, 166, 0, 0.7);
+  text-align: center;
+  animation: popIn 1.2s ease-out;
+  backdrop-filter: blur(4px);
+  border: 2px solid rgba(255, 200, 100, 0.6);
+}
+
+.greeting-box h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.3rem;
+  color: #b35300;
+  text-shadow: 0 0 15px gold, 0 0 25px #ffb347;
+}
+
+.greeting-box span {
+  color: #ff8800;
+}
+
+.greeting-box p {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: #7a3a00;
+}
+
+/* Sparkle background (animated particles) */
+.sparkle-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: sparkleMove 6s linear infinite;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Animations */
+@keyframes sparkleMove {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100px 100px;
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInOutContainer {
+  0% {
+    opacity: 0;
+  }
+  10%, 85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* Full banner container */
+.diwali-banner {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 2000;
+  animation: fadeInOutBanner 8s ease-in-out forwards;
+}
+
+/* Background glowing image */
+/* Fullscreen centered container */
+.diwali-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.65); /* soft dark overlay */
+  z-index: 9999;
+  animation: fadeInOutBanner 6s ease-in-out forwards;
+}
+
+/* Responsive image */
+.diwali-img {
+  width: 80%;
+  max-width: 400px;
+  height: auto;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 20px gold) brightness(1.1);
+  animation: floatGlow 3s ease-in-out infinite alternate;
+  border-radius: 30px;
+  margin-bottom: 20px;
+}
+
+/* Glowing festive text */
+.diwali-text {
+  text-align: center;
+  color: #fff6d1;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 600;
+  text-shadow:
+    0 0 8px #ffb300,
+    0 0 20px #ff8800,
+    0 0 30px #ff5500;
+  animation: blinkText 1.5s infinite alternate;
+}
+
+/* Highlight parts */
+.diwali-text span {
+  color: #ffd700;
+  text-shadow:
+    0 0 10px #ffd700,
+    0 0 25px #ffb400;
+}
+.diwali-text strong {
+  color: #fff;
+  text-shadow:
+    0 0 15px #ff6600,
+    0 0 30px #ff3300;
+}
+
+/* Animations */
+@keyframes fadeInOutBanner {
+  0% { opacity: 0; transform: scale(0.95); }
+  10%, 80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.98); }
+}
+@keyframes floatGlow {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+@keyframes blinkText {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
